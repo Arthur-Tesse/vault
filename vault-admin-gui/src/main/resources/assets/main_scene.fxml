@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.WebView?>
+<VBox xmlns:fx="http://javafx.com/fxml/1"
+      minHeight="600.0"
+      minWidth="1024.0"
+      prefHeight="600.0"
+      prefWidth="1024.0"
+      stylesheets="@main_scene.css"
+      xmlns="http://javafx.com/javafx/8.0.172-ea"
+      fx:controller="vault.admin.gui.MainSceneController">
+    <MenuBar VBox.vgrow="NEVER">
+        <Menu text="%menu.network">
+            <MenuItem text="%menu.network.tokenRefresh"
+                      onAction="#refreshToken"/>
+        </Menu>
+        <Menu text="%menu.help">
+            <MenuItem text="%menu.help.openGithub"
+                      onAction="#openOnGithub"/>
+            <MenuItem text="%menu.help.about"/>
+        </Menu>
+    </MenuBar>
+    <HBox prefHeight="100.0"
+          prefWidth="200.0"
+          VBox.vgrow="ALWAYS">
+        <VBox HBox.hgrow="NEVER">
+            <VBox fx:id="basicInfoButton"
+                  alignment="CENTER"
+                  onMouseClicked="#categoryClicked"
+                  prefWidth="200.0"
+                  spacing="8.0"
+                  styleClass="custom-tab"
+                  VBox.vgrow="ALWAYS">
+                <ImageView fitHeight="48.0"
+                           fitWidth="48.0"
+                           pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@main_content.png"/>
+                </ImageView>
+                <Label text="%label.basicInfo">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <padding>
+                    <Insets bottom="8.0"
+                            left="8.0"
+                            right="8.0"
+                            top="8.0"/>
+                </padding>
+            </VBox>
+            <VBox fx:id="tagsButton"
+                  alignment="CENTER"
+                  onMouseClicked="#categoryClicked"
+                  prefWidth="200.0"
+                  spacing="8.0"
+                  styleClass="custom-tab"
+                  VBox.vgrow="ALWAYS">
+                <ImageView fitHeight="48.0"
+                           fitWidth="48.0"
+                           pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@tags.png"/>
+                </ImageView>
+                <Label text="%label.tags">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <padding>
+                    <Insets bottom="8.0"
+                            left="8.0"
+                            right="8.0"
+                            top="8.0"/>
+                </padding>
+            </VBox>
+            <VBox fx:id="contentButton"
+                  alignment="CENTER"
+                  disable="true"
+                  onMouseClicked="#categoryClicked"
+                  prefWidth="200.0"
+                  spacing="8.0"
+                  styleClass="custom-tab"
+                  VBox.vgrow="ALWAYS">
+                <ImageView fitHeight="48.0"
+                           fitWidth="48.0"
+                           pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@content.png"/>
+                </ImageView>
+                <Label text="%label.content">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <padding>
+                    <Insets bottom="8.0"
+                            left="8.0"
+                            right="8.0"
+                            top="8.0"/>
+                </padding>
+            </VBox>
+            <VBox fx:id="metadataButton"
+                  alignment="CENTER"
+                  onMouseClicked="#categoryClicked"
+                  prefWidth="200.0"
+                  spacing="8.0"
+                  styleClass="custom-tab"
+                  VBox.vgrow="ALWAYS">
+                <ImageView fitHeight="48.0"
+                           fitWidth="48.0"
+                           pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@metadata.png"/>
+                </ImageView>
+                <Label text="%label.metadata">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <padding>
+                    <Insets bottom="8.0"
+                            left="8.0"
+                            right="8.0"
+                            top="8.0"/>
+                </padding>
+            </VBox>
+        </VBox>
+        <Separator orientation="VERTICAL"/>
+        <StackPane HBox.hgrow="ALWAYS">
+            <SplitPane fx:id="contentPane"
+                       dividerPositions="0.5"
+                       prefWidth="0.0"
+                       styleClass="fragment">
+                <TextArea fx:id="contentMarkdownArea">
+                    <font>
+                        <Font name="Monospaced Regular"
+                              size="12.0"/>
+                    </font>
+                </TextArea>
+                <WebView fx:id="contentPreview"/>
+            </SplitPane>
+            <VBox fx:id="basicInfoPane"
+                  spacing="16.0"
+                  styleClass="fragment">
+                <padding>
+                    <Insets bottom="4.0"
+                            left="4.0"
+                            right="4.0"
+                            top="4.0"/>
+                </padding>
+                <VBox spacing="4.0">
+                    <Label maxWidth="Infinity"
+                           text="%label.basicInfo.name">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <TextField maxWidth="Infinity"
+                               fx:id="nameInput">
+                        <VBox.margin>
+                            <Insets left="8.0"/>
+                        </VBox.margin>
+                    </TextField>
+                </VBox>
+                <VBox layoutX="18.0"
+                      layoutY="18.0"
+                      spacing="4.0">
+                    <Label maxWidth="Infinity"
+                           text="%label.basicInfo.type">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <ComboBox fx:id="typeChooser"
+                              maxWidth="Infinity">
+                        <VBox.margin>
+                            <Insets left="8.0"/>
+                        </VBox.margin>
+                    </ComboBox>
+                </VBox>
+                <VBox layoutX="18.0"
+                      layoutY="80.0"
+                      spacing="4.0">
+                    <Label maxWidth="Infinity"
+                           text="%label.basicInfo.enableContent">
+                        <font>
+                            <Font size="13.0"/>
+                        </font>
+                    </Label>
+                    <CheckBox fx:id="contentEnabledCheckbox"
+                              maxWidth="Infinity"
+                              mnemonicParsing="false"
+                              text="%generic.enable">
+                        <VBox.margin>
+                            <Insets left="8.0"/>
+                        </VBox.margin>
+                    </CheckBox>
+                </VBox>
+                <StackPane.margin>
+                    <Insets/>
+                </StackPane.margin>
+            </VBox>
+            <VBox fx:id="tagsPane"
+                  spacing="16.0"
+                  styleClass="fragment">
+                <padding>
+                    <Insets bottom="4.0"
+                            left="4.0"
+                            right="4.0"
+                            top="4.0"/>
+                </padding>
+                <HBox spacing="8.0">
+                    <TextField fx:id="tagInput"
+                               onKeyTyped="#tagInputKeyPressed"
+                               HBox.hgrow="ALWAYS"/>
+                    <Button mnemonicParsing="false"
+                            onAction="#addTag"
+                            text="%button.addTag"/>
+                </HBox>
+                <FlowPane fx:id="tagsFlow"
+                          hgap="4.0"
+                          vgap="4.0"
+                          VBox.vgrow="ALWAYS"/>
+                <StackPane.margin>
+                    <Insets/>
+                </StackPane.margin>
+            </VBox>
+            <VBox fx:id="metadataPane"
+                  spacing="4.0"
+                  styleClass="fragment">
+                <GridPane hgap="4.0"
+                          vgap="4.0"
+                          VBox.vgrow="NEVER">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                        <ColumnConstraints hgrow="NEVER"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                        <RowConstraints vgrow="SOMETIMES"/>
+                    </rowConstraints>
+                    <Label text="%label.metadata.name"/>
+                    <Label text="%label.metadata.value"
+                           GridPane.rowIndex="1"/>
+                    <TextField fx:id="metadataNameInput"
+                               onKeyPressed="#metadataInputKeyPressed"
+                               GridPane.columnIndex="1"/>
+                    <TextField fx:id="metadataValueInput"
+                               onKeyPressed="#metadataInputKeyPressed"
+                               GridPane.columnIndex="1"
+                               GridPane.rowIndex="1"/>
+                    <Button maxHeight="1.7976931348623157E308"
+                            mnemonicParsing="false"
+                            onAction="#addMetadata"
+                            text="%button.addMetadata"
+                            GridPane.columnIndex="2"
+                            GridPane.rowSpan="2147483647"
+                            GridPane.vgrow="ALWAYS"/>
+                </GridPane>
+                <TableView fx:id="metadataTableView"
+                           editable="true"
+                           prefWidth="200.0"
+                           VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="metadataNameColumn"
+                                     editable="false"
+                                     resizable="false"
+                                     text="%column.name"/>
+                        <TableColumn fx:id="metadataValueColumn"
+                                     onEditCommit="#metadataValueEditFinished"
+                                     resizable="false"
+                                     text="%column.value"/>
+                    </columns>
+                    <contextMenu>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem onAction="#deleteSelectedMetadata"
+                                          text="Delete Selected">
+                                    <graphic>
+                                        <ImageView>
+                                            <Image url="@delete.png"/>
+                                        </ImageView>
+                                    </graphic>
+                                </MenuItem>
+                            </items>
+                        </ContextMenu>
+                    </contextMenu>
+                </TableView>
+                <padding>
+                    <Insets bottom="4.0"
+                            left="4.0"
+                            right="4.0"
+                            top="4.0"/>
+                </padding>
+                <StackPane.margin>
+                    <Insets/>
+                </StackPane.margin>
+            </VBox>
+        </StackPane>
+    </HBox>
+    <Separator/>
+    <ButtonBar buttonOrder=""
+               VBox.vgrow="NEVER">
+        <buttons>
+            <HBox alignment="CENTER_RIGHT"
+                  spacing="4">
+                <Label text="%label.hasToken"/>
+                <Circle fill="RED"
+                        radius="8"
+                        fx:id="tokenStatus"/>
+            </HBox>
+            <Button onAction="#send"
+                    text="Send"/>
+        </buttons>
+        <padding>
+            <Insets bottom="8.0"
+                    left="8.0"
+                    right="8.0"
+                    top="8.0"/>
+        </padding>
+    </ButtonBar>
+</VBox>

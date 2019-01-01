@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/kobalt/Build.kt.iml" filepath="$PROJECT_DIR$/kobalt/Build.kt.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vault-admin-gui/vault-admin-gui.iml" filepath="$PROJECT_DIR$/vault-admin-gui/vault-admin-gui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vault-data/vault-data.iml" filepath="$PROJECT_DIR$/vault-data/vault-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vault-frontend/vault-frontend.iml" filepath="$PROJECT_DIR$/vault-frontend/vault-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vault-server/vault-server.iml" filepath="$PROJECT_DIR$/vault-server/vault-server.iml" />
+    </modules>
+  </component>
+</project>

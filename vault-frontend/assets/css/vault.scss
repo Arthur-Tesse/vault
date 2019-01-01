@@ -1,0 +1,59 @@
+@import 'colors';
+@import 'common';
+
+header {
+
+  align-items: center;
+  background: $first-back-color linear-gradient(to right, $first-back-color, $second-back-color);
+  color: $white;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5rem;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+
+  img {
+
+    width: 8.5em;
+  }
+
+  h1 {
+
+    font-size: 3.25em;
+    margin-bottom: .1rem;
+    margin-top: 0;
+  }
+}
+
+@media screen and (min-width: 42em) and (max-width: 64em) {
+
+  header {
+
+    img {
+
+      width: 6.5em;
+    }
+
+    h1 {
+
+      font-size: 2.25em;
+    }
+  }
+}
+
+@media screen and (max-width: 42em) {
+
+  header {
+
+    img {
+
+      width: 4.5em;
+    }
+
+    h1 {
+
+      font-size: 1.75em;
+    }
+  }
+}

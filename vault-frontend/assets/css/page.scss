@@ -1,0 +1,15 @@
+@import 'common';
+
+.tags {
+
+  display: flex;
+}
+
+.tag {
+
+  margin-right: .5rem;
+  background-color: $link-color;
+  color: $white;
+  padding: .2rem .5rem;
+  border-radius: 1rem;
+}

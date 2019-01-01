@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--suppress HtmlUnknownTarget, ExceptionCaughtLocallyJS -->
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          name="viewport">
+    <title>Vault</title>
+    <meta content="Vault"
+          name="application-name">
+    <meta content="#a88fac"
+          name="theme-color">
+    <meta content="notranslate"
+          name="google">
+    <link href="/licenses"
+          rel="license">
+    <link href="https://rsms.me/inter/inter-ui.css"
+          rel="stylesheet">
+    <link href="/assets/css/vault.css"
+          rel="stylesheet">
+    <link href="/favicon.png"
+          rel="icon">
+    <style id="overlay-style">
+
+        body:not(.loaded) {
+
+            overflow: hidden;
+        }
+
+        .wait-overlay {
+
+            position: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            z-index: 9999;
+        }
+
+        #circle-container {
+            display: inline-block;
+            position: relative;
+            width: 8em;
+            height: 8em;
+        }
+
+        #circle-container #circle1 {
+            position: absolute;
+            opacity: 1;
+            border-radius: 50%;
+            background-color: #9374f1;
+            animation: ripple 1s ease-in infinite;
+        }
+
+        @keyframes ripple {
+            0% {
+                top: 4em;
+                left: 4em;
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                top: .5em;
+                left: .5em;
+                width: 7em;
+                height: 7em;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wait-overlay">
+    <div id="circle-container">
+        <div id="circle1"></div>
+    </div>
+    Please wait...
+</div>
+<noscript>
+    <div class="wait-overlay">
+        You disabled JS !
+        <img src="/assets/img/baka_js.png"/>
+    </div>
+</noscript>
+<header>
+
+    <img alt="Vault's Icon"
+         src="/assets/img/blanc.png"/>
+    <h1>The Vault</h1>
+</header>
+
+<main>
+    <input class="full-width"
+           id="search-field"
+           placeholder="Rechercher..."
+           type="text">
+    <h1>Nouveautés</h1>
+    <div id="animes-table">Loading available content...</div>
+</main>
+
+<footer class="site-footer">
+    <div class="site-footer-owner">Created with ❤️ by Arthur TESSE</div>
+    <div>This website uses open-source technologies. Licenses available <a href="/licenses">here</a></div>
+</footer>
+<script id="browser-checker"
+        src="/assets/js/vault/browser_checker.js"></script>
+<script type="module">
+    import Overlay from '/assets/js/vault/overlay.js';
+    import Api from '/assets/js/vault/api.js';
+    import Transformers from '/assets/js/vault/transformers.js';
+
+    document.getElementById('search-field').onkeypress = (event) => {
+
+        if (event.keyCode === 13 && event.target['value'].trim().length > 0)
+            location.assign(location.origin + '/search?query=' + event.target['value']);
+    };
+
+    (async () => {
+        await Api.getLatestObjects()
+            .then(it => {
+
+                if (it.type === 'EXCEPTION') throw it;
+                else return it;
+            })
+            .then(array => array.map(element => {
+                let typeReadable = Transformers.transformType(element['type']).name;
+                return `<tr>
+    <td class="no-wrap">
+        <a href="/obj/${element['uuid']}">${element['name']}</a>
+    </td>
+    <td>${typeReadable}</td>
+</tr>`;
+            }))
+            .then(elements => elements.join(''))
+            .then(html => `<table id='anime-table'>
+    <thead>
+    <tr>
+        <th class="no-wrap">Nom</th>
+        <th>Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    ${html}
+    </tbody>
+</table>`)
+            .then(html => document.getElementById('animes-table').outerHTML = html)
+            .catch(exception => {
+
+                document.getElementById('animes-table').innerText = Transformers.transformExceptionMessage(exception['reason']);
+            })
+            .finally(() => {
+
+                Overlay.removeOverlay();
+            });
+    })();
+</script>
+</body>
+</html>

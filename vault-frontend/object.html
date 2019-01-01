@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          name="viewport">
+    <title>Vault</title>
+    <meta content="Vault"
+          name="application-name">
+    <meta content="#a88fac"
+          name="theme-color">
+    <meta content="notranslate"
+          name="google">
+    <link href="/licenses.html"
+          rel="license">
+    <link href="https://rsms.me/inter/inter-ui.css"
+          rel="stylesheet">
+    <link href="/assets/css/page.css"
+          rel="stylesheet">
+    <link href="favicon.png"
+          rel="icon">
+    <link href="/assets/css/materialdesignicons.css"
+          rel="stylesheet">
+    <style id="overlay-style">
+
+        body:not(.loaded) {
+
+            overflow: hidden;
+        }
+
+        .wait-overlay {
+
+            position: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            z-index: 9999;
+        }
+
+        #circle-container {
+            display: inline-block;
+            position: relative;
+            width: 8em;
+            height: 8em;
+        }
+
+        #circle-container #circle1 {
+            position: absolute;
+            opacity: 1;
+            border-radius: 50%;
+            background-color: #9374f1;
+            animation: ripple 1s ease-in infinite;
+        }
+
+        @keyframes ripple {
+            0% {
+                top: 4em;
+                left: 4em;
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                top: .5em;
+                left: .5em;
+                width: 7em;
+                height: 7em;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="wait-overlay">
+    <div id="circle-container">
+        <div id="circle1"></div>
+    </div>
+    Please wait...
+</div>
+<noscript>
+    <div class="wait-overlay">
+        You disabled JS !
+        <img src="/assets/img/baka_js.png"/>
+    </div>
+</noscript>
+<nav>
+    <a class="ripple"
+       href="/">
+        <i class="mdi mdi-arrow-left"></i>
+    </a>
+    <div class="title">Vault</div>
+</nav>
+<main>
+    <div id="content"></div>
+    <h2 id="tags_header">Tags</h2>
+    <div class="tags"
+         id="tags">N/A
+    </div>
+    <h2 id="metadata_header">Metadata</h2>
+    <div class="metadata"
+         id="metadata">N/A
+    </div>
+</main>
+<script type="module">
+    import Base64 from '/assets/js/third-party/js-base64/base64.js';
+    import Overlay from '/assets/js/vault/overlay.js';
+    import Showdown from '/assets/js/third-party/showdown/showdown.js';
+    import Api from '/assets/js/vault/api.js';
+    import DOM from '/assets/js/vault/dom.js';
+    import Options from '/assets/js/third-party/showdown/options.js';
+
+    (async () => {
+
+        console.log('<p>aaa</p>');
+        let object = await Api.getObject(location.pathname.match(/([^\/]*)\/*$/)[1]);
+        let objectName = object['name'];
+        document.getElementsByTagName('title')[0].textContent = `${objectName} - Vault`;
+        document.getElementsByClassName('title')[0].innerText = `${objectName} - Vault`;
+        let contentDiv = document.getElementById('content');
+
+        if (object['metadata'].hasOwnProperty('content')) {
+
+            contentDiv.innerHTML = new Showdown(new Options({
+                noHeaderId: true,
+                strikethrough: true,
+                underline: true,
+                emoji: true,
+                simplifiedAutoLink: true,
+                tables: true,
+                requireSpaceBeforeHeadingText: true
+            })).makeHtml(Base64.decode(object['metadata']['content']));
+            delete object['metadata']['content'];
+        } else {
+            DOM.removeContentDiv();
+        }
+
+        if (Object.keys(object['metadata']).length > 0) {
+
+            contentDiv.innerHTML += '<hr>';
+            let tableTemp = '<table>';
+            for (let key in object['metadata'])
+                if (object['metadata'].hasOwnProperty(key))
+                    tableTemp += `<tr><td>${key}</td><td>${object['metadata'][key]}</td></tr>`;
+            document.getElementById('metadata').innerHTML = tableTemp + '</table>';
+        } else {
+            DOM.removeMetadataRelated();
+        }
+
+        if (object['tags'].length > 0) {
+            let tagsField = document.getElementById('tags');
+            tagsField.innerText = '';
+            object['tags'].forEach(tag => tagsField.innerHTML += `<span class="tag">#${tag}</span>`);
+        } else {
+            DOM.removeTagsRelated();
+        }
+    })().catch((error) => {
+        console.trace(error);
+    })
+        .finally(() => {
+
+            Overlay.removeOverlay();
+        });
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1"
+         stylesheets="@login_dialog.css"
+         type="DialogPane"
+         xmlns="http://javafx.com/javafx/10.0.1">
+    <content>
+        <GridPane hgap="4.0"
+                  vgap="8.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="NEVER"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="SOMETIMES"/>
+                <RowConstraints vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <Label text="%label.username"
+                   GridPane.halignment="RIGHT"
+                   GridPane.hgrow="NEVER"
+                   GridPane.valignment="CENTER"
+                   GridPane.vgrow="NEVER"/>
+            <TextField GridPane.columnIndex="1"
+                       GridPane.halignment="LEFT"
+                       GridPane.hgrow="ALWAYS"
+                       GridPane.valignment="CENTER"
+                       GridPane.vgrow="NEVER"
+                       fx:id="username"/>
+            <Label text="%label.password"
+                   GridPane.halignment="RIGHT"
+                   GridPane.hgrow="NEVER"
+                   GridPane.rowIndex="1"
+                   GridPane.valignment="CENTER"
+                   GridPane.vgrow="NEVER"/>
+            <PasswordField GridPane.columnIndex="1"
+                           GridPane.halignment="LEFT"
+                           GridPane.hgrow="ALWAYS"
+                           GridPane.rowIndex="1"
+                           GridPane.valignment="CENTER"
+                           GridPane.vgrow="NEVER"
+                           fx:id="password"/>
+        </GridPane>
+    </content>
+</fx:root>
