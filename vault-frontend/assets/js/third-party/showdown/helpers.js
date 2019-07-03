@@ -85,11 +85,6 @@ function regexFindMatchPosition(str, left, right, flags) {
                         wholeMatch: {start: start, end: end}
                     };
                     pos.push(obj);
-
-                    if (!g) {
-
-                        return pos;
-                    }
                 }
             }
         }
